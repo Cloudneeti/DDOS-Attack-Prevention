@@ -16,6 +16,7 @@ This repository contains DDoS attack detection & prevention on a Virtual Machine
 5. [Perform Attack](#attack)
 6. [Detect and Mitigate Attack](#detect)
 7. [References](#references)
+8. [Configuration validation](#config)
 
 <a name="objectives"></a>
 # Objective of the POC  
@@ -56,13 +57,15 @@ Following steps are required to create email alert by metric level
 3. Open Windows PowerShell (Run as Administrator) and navigate to 101-DDoS-Attack-Prevention directory 
  
     `cd .\azure-quickstart-templates\101-DDoS-Attack-Prevention\`
+3. Login to Azure by passing subscription id to execute script.
 
+    `Login-AzureRmAccount -SubscriptionId "<subscription id>" `
 4. Execute following command to create email alert rule
 
     `.\DSC\configure-metricrule.ps1 -ResourceGroupName "<ResourceGroupName>" -Location "<location>" -Email "<EmailID>" -Verbose`
     
 5.  To manually configure IIS server on VM follow below steps <br />
-    a. Go to Azure Portal --> Select Resource Groups services --> Select Resource Group - "0004-ddos-attack-on-vm" <br />
+    a. Go to Azure Portal --> Select Resource Groups services --> Select Resource Group - <ResourceGroupName> given during deployment <br />
     b. Select VM with name 'vm-with-ddos'
 
 
@@ -168,6 +171,11 @@ The email alert configured at metrics level, This will send the alert mail if VN
     
    ![](images/ddoS-attack-mail-alert.png)
 
+<a name="config"></a>
+## Configuration Validation
+* Distributed denial of service (DDoS) attacks are some of the largest availability and security concerns facing customers that are moving their applications to the cloud. A DDoS attack attempts to exhaust an application’s resources, making the application unavailable to legitimate users. Azure DDoS protection, combined with application design best practices, provide defense against DDoS attacks. Automatic detection and remediation procedure of such vulnerabilities can be easily done using the controls available in Cloudneeti.
+
+* Cloudneeti is available on the Azure marketplace. Try out the free test drive here https://aka.ms/Cloudneeti 
 
 <a name="references"></a>
 
