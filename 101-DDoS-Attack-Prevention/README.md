@@ -14,9 +14,8 @@ This repository contains DDoS attack detection & prevention on a Virtual Machine
 3. [Pre-requisites](#prerequisites)
 4. [Deploy](#deploy)
 5. [Perform Attack](#attack)
-6. [Detect Attack](#detect)
-7. [Respond/Mitigate](#mitigate)
-8. [Configuration validation](#config)
+6. [Detect and Mitigate Attack](#detect)
+7. [References](#references)
 
 <a name="objectives"></a>
 # Objective of the POC  
@@ -134,7 +133,8 @@ Microsoft have partnered with [BreakingPoint Cloud](https://www.ixiacom.com/prod
 
 
 <a name="detect"></a>
-    
+
+# Detect and mitigate attack
 The DDoS attack on VM with DDoS Protection Standard is detected and mitigated as shown in below images. <br />
 To monitor from metrics to find public IP is under DDoS attack (Detect DDoS attack)  <br />
     Azure Portal-->Resource Group --> VM --> Metrics --> Select below options  <br />
@@ -167,4 +167,13 @@ The email alert configured at metrics level, This will send the alert mail if VN
   
     
    ![](images/ddoS-attack-mail-alert.png)
-<a name="config"></a>
+
+
+<a name="references"></a>
+
+**References** 
+
+
+1.	 DDoS Blog: http://aka.ms/ddosblog
+2.	DDoS Protection overview: http://aka.ms/ddosprotectiondocs
+3.	DDoS Standard best practices & reference architecture : http://aka.ms/ddosbest 
