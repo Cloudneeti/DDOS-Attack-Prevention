@@ -12,7 +12,7 @@ This repository contains DDoS attack detection & prevention on a Virtual Machine
 1. [Objectives](#objectives)
 2. [Overview](#overview)
 3. [Pre-requisites](#prerequisites)
-4. [Deploy](#deployment)
+4. [Deploy](#deploy)
 5. [Perform Attack](#attack)
 6. [Detect Attack](#detect)
 7. [Respond/Mitigate](#mitigate)
@@ -43,7 +43,7 @@ Access to Azure subscription to deploy following resources
 1.  Virtual Machine with Virtual Network
 2.  OMS (Monitoring)
 
-<a name="deployment"></a>
+<a name="deploy"></a>
 
 # Deploy 
 1. Deploy using "Deploy to Azure" button at the top 
@@ -62,24 +62,46 @@ Following steps are required to create email alert by metric level
 
     `.\DSC\configure-metricrule.ps1 -ResourceGroupName "<ResourceGroupName>" -Location "<location>" -Email "<EmailID>" -Verbose`
     
-5. To configure Azure Security Center, pass email address `<email id>` for notification
+5.  To manually configure IIS server on VM follow below steps <br />
+    a. Go to Azure Portal --> Select Resource Groups services --> Select Resource Group - "0004-ddos-attack-on-vm" <br />
+    b. Select VM with name 'vm-with-ddos'
+
+
+    ![](images/select-rg-and-vm.png)
+
+    c. On Properties Page --> Click Connect to Download RDP file --> Save and Open RDP file.
+
+
+    ![](images/click-on-connect.png)
+
+    d. Enter login details (The VM login username and password is in deployment powershell output)
+    
+    e. Open Server Manager and install Web Server (IIS).
+
+
+    ![](images/select-add-roles-and-feature.png)
+
+
+    ![](images/install-iis-web-Server-on-VM.png)
+               
+    
+6. To configure Azure Security Center, pass email address `<email id>` for notification
 
     `.\DSC\configure-azuresecuritycenter.ps1 -EmailAddressForAlerts <email id>`
 
-6. To create standard DDoS plan and configure with virtual network <br />
+7.  To create standard DDoS plan and configure with virtual network <br />
 
     a. Go to Azure Portal --> Click on "Create a resource" --> Search "DDoS Protection  plan"
 
-      ![]()
+      ![](images/ddos-standard-plan-1.png)
     
     b. Enter details 
 
-      ![]()
+      ![](images/ddos-standard-plan-2.png)
 
     c. Configure standard DDoS protection plan on VNet
 
-      ![]()
-
+      ![](images/select-standard-ddos-on-vnet.png)
 
 <a name="attack"></a>
 
@@ -94,7 +116,7 @@ To monitor from metrics to find public IP is under DDoS attack (Does not detect 
     - "Under DDoS attack or not" in metrics filter  <br />
     
 
-   ![]()
+   ![](images/without-ddos-protection-under-attack.png)
 
 
 To monitor from metrics to find public IP inbound packets status (Does not detect DDoS attack) <br />
@@ -104,13 +126,45 @@ To monitor from metrics to find public IP inbound packets status (Does not detec
     - inbound packets forwarded DDoS  <br />
 
 
-  ![]()
+  ![](images/without-ddos-protection-inbound.png)
 
  ### * Attack on VM with DDoS Protection Standard <br />
 
 Microsoft have partnered with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) to offer tooling for Azure customers to generate traffic load against DDoS Protection enabled public endpoints to simulate TCP SYN flood and DNS flood attack on the VM without DDoS Protection Standard. Create a  support request with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) for simulation of a DDoS attack on infrastructure. The team executed TCP SYN flood and DNS flood attack on the VM with DDoS Protection Standard <br />
 
-    
+
 <a name="detect"></a>
     
+The DDoS attack on VM with DDoS Protection Standard is detected and mitigated as shown in below images. <br />
+To monitor from metrics to find public IP is under DDoS attack (Detect DDoS attack)  <br />
+    Azure Portal-->Resource Group --> VM --> Metrics --> Select below options  <br />
+    - Select specific Public IP in resource option   <br />
+    - "Under DDoS attack or not" in metrics filter  <br />
+ 
+
+   ![](images/monitoring-public-IP-under-DDoS-attack.png)
+
+
+To monitor from metrics to find public IP inbound packets status (Detect DDoS attack) <br />
+    Azure Portal-->Resource Group --> VM --> Metrics --> Select below options from metrics filter  <br />
+    - inbound packets DDoS  <br />
+    - inbound packets dropped DDoS  <br />
+    - inbound packets forwarded DDoS  <br />
+
+  
+   ![](images/monitoring-inbound-packets-DDoS.png)
+
+
+The DDoS Protection Standard detects and mitigates the attack on VM. The below image of network metrics of VM while network in attack. <br />
+To monitor network in and network out follow below steps <br />
+    Azure Portal-->Resource Group --> VM --> Metrics --> Select VM name in resource --> select netork in / out in metrics filter
+
+   ![](images/monitoring-network-in-out.png)
+    
+
+The email alert configured at metrics level, This will send the alert mail if VNet is under DDoS attack over last the 5 minutes <br />
+  ( Note: Deployment UserName is used to get the email alert for DDoS attack )
+  
+    
+   ![](images/ddoS-attack-mail-alert.png)
 <a name="config"></a>
