@@ -1,9 +1,11 @@
 ﻿# DDoS Protection attack on a Virtual Machine Scenario 
-This repository contains DDoS attack detection & prevention on a Virtual Machine <p></p>
+This repository contains DDoS attack detection on a Virtual Machine with public IP <p></p>
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAvyanConsultingCorp%2FDDOS-Attack-Prevention%2Fmaster%2F101-DDoS-Attack-Prevention%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/> 
 </a>
+
+
 <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAvyanConsultingCorp%2FDDOS-Attack-Prevention%2Fmaster%2F101-DDoS-Attack-Prevention%2Fazuredeploy.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/> 
 </a>
