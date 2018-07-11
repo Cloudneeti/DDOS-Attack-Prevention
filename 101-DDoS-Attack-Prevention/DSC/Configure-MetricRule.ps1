@@ -15,7 +15,7 @@ param (
     [Parameter(Mandatory = $true)]
     [Alias("user")]
     [string]
-    $Email   
+    $Email
 )
 
 Write-Verbose "Configurating email alert at metrics level "
