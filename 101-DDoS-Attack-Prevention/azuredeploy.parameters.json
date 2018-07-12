@@ -6,7 +6,7 @@
         "value": "VmUser"
       },
       "adminUserPassword": {
-        "value": "GEN-PASSWORD"
+        "value": "Password@12345"
       }
     }
   }
