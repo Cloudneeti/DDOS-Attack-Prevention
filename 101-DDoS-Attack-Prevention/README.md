@@ -184,7 +184,7 @@ The email alert configured at metrics level, This will send the alert mail if VN
 **References** 
 
 
-1.	 DDoS Blog: http://aka.ms/ddosblog
+1.	DDoS Blog: http://aka.ms/ddosblog
 2.	DDoS Protection overview: http://aka.ms/ddosprotectiondocs
 3.	DDoS Standard best practices & reference architecture : http://aka.ms/ddosbest 
 
