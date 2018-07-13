@@ -25,7 +25,7 @@ $Script:asc_clientId = "1950a258-227b-4e31-a9cf-717495945fc2"              # Wel
 $Script:asc_redirectUri = "urn:ietf:wg:oauth:2.0:oob"                      # Redirect URI for Azure PowerShell
 $Script:asc_resourceAppIdURI = "https://management.azure.com/"             # Resource URI for REST API
 $Script:asc_url = 'management.azure.com'                                   # Well-known URL endpoint
-$Script:asc_version = "2017-01-01-alpha"                                 # Default API Version
+$Script:asc_version = "2015-06-01-preview"                                 # Default API Version
 $PolicyName = 'default'
 $asc_APIVersion = "?api-version=$asc_version" #Build version syntax.
 $asc_endpoint = 'policies' #Set endpoint.
