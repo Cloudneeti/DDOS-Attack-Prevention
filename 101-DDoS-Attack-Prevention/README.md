@@ -188,7 +188,7 @@ The email alert configured at metrics level, This will send the alert mail if VN
 2.	DDoS Protection overview: http://aka.ms/ddosprotectiondocs
 3.	DDoS Standard best practices & reference architecture : http://aka.ms/ddosbest 
 
-# Disclaimer & Acknowledgements 
+## Disclaimer & Acknowledgements 
 
 Avyan Consulting Corp conceptualized and developed the software in guidance and consultations with Microsoft Azure Security Engineering teams.
  
