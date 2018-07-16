@@ -1,5 +1,4 @@
 ﻿# DDoS Protection attack on a Virtual Machine Scenario 
-This repository contains DDoS attack detection on a Virtual Machine with public IP <p></p>
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAvyanConsultingCorp%2FDDOS-Attack-Prevention%2Fmaster%2F101-DDoS-Attack-Prevention%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/> 
@@ -19,10 +18,11 @@ This repository contains DDoS attack detection on a Virtual Machine with public 
 6. [Detect and Mitigate Attack](#detect)
 7. [References](#references)
 8. [Configuration validation](#config)
+9. [Teardown Deployment](#teardown)
 
 <a name="objectives"></a>
 # Objective of the POC  
-Showcase DDoS Protection Standard on Azure resources with public IP
+This playbook illustrates a simulated distributed denial of service (DDOS) attack against a virtual machine.  Work through the configuration setting to enable DDOS protections and get alerted when attacks occur. 
 
 # Overview
 It showcases following use cases
@@ -113,7 +113,7 @@ Following steps are required to create email alert by metric level
  ### * Attack VM without DDoS protection & analyze <br />
 Microsoft have partnered with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) to offer tooling for Azure customers to generate traffic load against DDoS Protection enabled public endpoints to simulate TCP SYN flood and DNS flood attack on the VM without DDoS Protection Standard. Create a  support request with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) for simulation of a DDoS attack on infrastructure. The team executed TCP SYN flood and DNS flood attack on the VM without DDoS Protection Standard  <br />
 
-In this case DDoS attack can not be detected as shown in below images. <br />
+In this case DDoS attack cannot be detected as shown in below images. <br />
 To monitor from metrics to find public IP is under DDoS attack (Does not detect DDoS attack)  <br />
     Azure Portal-->Resource Group --> VM --> Metrics --> Select below options  <br />
     - Select specific Public IP in resource option   <br />
@@ -162,13 +162,13 @@ To monitor from metrics to find public IP inbound packets status (Detect DDoS at
 
 The DDoS Protection Standard detects and mitigates the attack on VM. The below image of network metrics of VM while network in attack. <br />
 To monitor network in and network out follow below steps <br />
-    Azure Portal-->Resource Group --> VM --> Metrics --> Select VM name in resource --> select netork in / out in metrics filter
+    Azure Portal-->Resource Group --> VM --> Metrics --> Select VM name in resource --> select network in / out in metrics filter
 
    ![](images/monitoring-network-in-out.png)
     
 
-The email alert configured at metrics level, This will send the alert mail if VNet is under DDoS attack over last the 5 minutes <br />
-  ( Note: Deployment UserName is used to get the email alert for DDoS attack )
+The email alert configured at metrics level, this will send the alert mail if VNet is under DDoS attack over last the 5 minutes <br />
+  ( Note: Deployment username is used to get the email alert for DDoS attack)
   
     
    ![](images/ddoS-attack-mail-alert.png)
@@ -177,16 +177,28 @@ The email alert configured at metrics level, This will send the alert mail if VN
 ## Configuration Validation
 * Distributed denial of service (DDoS) attacks are some of the largest availability and security concerns facing customers that are moving their applications to the cloud. A DDoS attack attempts to exhaust an application’s resources, making the application unavailable to legitimate users. Azure DDoS protection, combined with application design best practices, provide defense against DDoS attacks. Automatic detection and remediation procedure of such vulnerabilities can be easily done using the controls available in Cloudneeti.
 
-* Cloudneeti is available on the Azure marketplace. Try out the free test drive here https://aka.ms/Cloudneeti 
+* Cloudneeti is available on the Azure marketplace. Try out the free test drive here https://aka.ms/Cloudneeti
 
-<a name="references"></a>
+<a name="teardown"></a>
+## Teardown Deployment 
+
+Run following powershell command after login to subscription to clear all the resources deployed during the demo. Specify resource group name given during deployment
+ 
+ `Remove-AzureRmResourceGroup -Name <ResourceGroupName>  -Force `
+ 
+    
+Verification steps -
+1. Login to Azure Portal / Subscription
+2. Check if resource group name given during deployment is cleared.
+<p/>
+
 
 **References** 
 
 
 1.	DDoS Blog: http://aka.ms/ddosblog
 2.	DDoS Protection overview: http://aka.ms/ddosprotectiondocs
-3.	DDoS Standard best practices & reference architecture : http://aka.ms/ddosbest 
+3.	DDoS Standard best practices & reference architecture: http://aka.ms/ddosbest 
 
 ## Disclaimer & Acknowledgements 
 
