@@ -371,7 +371,8 @@
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+        "[concat('deploy-',variables('vmName'),'-resource')]",
+        "deploy-ddos-attack-oms-resource"
       ],
       "properties": {
         "publisher": "Microsoft.Powershell",
