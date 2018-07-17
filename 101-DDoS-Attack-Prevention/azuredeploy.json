@@ -4,7 +4,7 @@
   "parameters": {
     "_artifactsLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/AvyanConsultingCorp/DDOS-Attack-Prevention/master/101-DDoS-Attack-Prevention/",
+      "defaultValue": "https://raw.githubusercontent.com/AvyanConsultingCorp/DDOS-Attack-Prevention/test-desiredstate/101-DDoS-Attack-Prevention/",
       "metadata": {
         "description": "this will be the location for artifacts"
       }
@@ -160,7 +160,8 @@
     "nsgTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.network/nsg.json'),parameters('_artifactsLocationSasToken'))]",
     "pipTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.network/publicipaddress.json'),parameters('_artifactsLocationSasToken'))]",
     "nicTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.network/nic-with-pip.json'),parameters('_artifactsLocationSasToken'))]",
-    "vmTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.compute/vm.windows.json'),parameters('_artifactsLocationSasToken'))]"
+    "vmTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.compute/vm.windows.json'),parameters('_artifactsLocationSasToken'))]",
+    "dscScriptUri":"[concat(uri(parameters('_artifactsLocation'),'DSC/DesiredStateConfig.ps1.zip'),parameters('_artifactsLocationSasToken'))]"
   },
   "resources": [
     {
@@ -362,6 +363,34 @@
         "protectedSettings": {
           "workspaceKey": "[reference('deploy-ddos-attack-oms-resource').outputs.workspaceKey.value]"
         }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/DSCExtension')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('deploy-',variables('vmName'),'-resource')]",
+        "deploy-ddos-attack-oms-resource"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Powershell",
+        "type": "DSC",
+        "typeHandlerVersion": "2.19",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "configuration": {
+            "url": "[variables('dscScriptUri')]",
+            "script": "DesiredStateConfig.ps1",
+            "function": "Main"
+          },
+          "configurationArguments": {
+            "MachineName": "[variables('vmName')]"
+          }
+        },
+
+        "protectedSettings": {}
       }
     }
   ],
