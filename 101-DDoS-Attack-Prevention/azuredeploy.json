@@ -423,13 +423,15 @@
           "threshold": 1,
           "windowSize": "PT5M"
         },
-        "action": {
-          "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
-          "sendToServiceOwners": true,
-          "customEmails": [
-            "[parameters('emailToSendAlertsTo')]"
-          ]
-        }
+        "actions": [
+          {
+            "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+            "sendToServiceOwners": true,
+            "customEmails": [
+              "[parameters('emailToSendAlertsTo')]"
+            ]
+          }
+        ]
       }
     }
   ],
