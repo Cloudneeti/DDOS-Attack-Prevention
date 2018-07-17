@@ -13,10 +13,8 @@
 1. [Objectives](#objectives)
 2. [Overview](#overview)
 3. [Pre-requisites](#prerequisites)
-4. [Deploy](#deploy)
 5. [Perform Attack](#attack)
 6. [Detect and Mitigate Attack](#detect)
-7. [References](#references)
 8. [Configuration validation](#config)
 9. [Teardown Deployment](#teardown)
 
@@ -25,9 +23,7 @@
 This playbook illustrates a simulated distributed denial of service (DDOS) attack against a virtual machine.  Work through the configuration setting to enable DDOS protections and get alerted when attacks occur. 
 
 # Overview
-It showcases following use cases
-1. Perform DDoS attack on resources in a virtual network including public IP addresses associated with virtual machines by following configuration --> DDoS Protection Standard detects attack and mitigate the DDoS attack and send alert.
-    * Virtual Network (VNet enabled DDoS Protection Standard)
+Perform DDoS attack on resources in a virtual network having public IP addresses associated with virtual machines with DDoS Protection Standard to detect, mitigate and send alert on being attacked.
 
 <a name="important-notes"></a>
 
@@ -45,72 +41,12 @@ Access to Azure subscription to deploy following resources
 1.  Virtual Machine with Virtual Network
 2.  OMS (Monitoring)
 
-<a name="deploy"></a>
 
-# Deploy 
-1. Deploy using "Deploy to Azure" button at the top 
-
-Following steps are required to create email alert by metric level
-
-1. Clone Azure quickstart templates repository using
-
-    `git clone https://github.com/Azure/azure-quickstart-templates.git`
-
-3. Open Windows PowerShell (Run as Administrator) and navigate to 101-DDoS-Attack-Prevention directory 
- 
-    `cd .\azure-quickstart-templates\101-DDoS-Attack-Prevention\`
-3. Login to Azure by passing subscription id to execute script.
-
-    `Login-AzureRmAccount -SubscriptionId "<subscription id>" `
-4. Execute following command to create email alert rule
-
-    `.\DSC\configure-metricrule.ps1 -ResourceGroupName "<ResourceGroupName>" -Location "<location>" -Email "<EmailID>" -Verbose`
-    
-5.  To manually configure IIS server on VM follow below steps <br />
-    a. Go to Azure Portal --> Select Resource Groups services --> Select Resource Group - <ResourceGroupName> given during deployment <br />
-    b. Select VM with name 'vm-with-ddos'
-
-
-    ![](images/select-rg-and-vm.png)
-
-    c. On Properties Page --> Click Connect to Download RDP file --> Save and Open RDP file.
-
-
-    ![](images/click-on-connect.png)
-
-    d. Enter login details (The VM login username and password is in deployment powershell output)
-    
-    e. Open Server Manager and install Web Server (IIS).
-
-
-    ![](images/select-add-roles-and-feature.png)
-
-
-    ![](images/install-iis-web-Server-on-VM.png)
-               
-    
-6. To configure Azure Security Center, pass email address `<email id>` for notification
-
-    `.\DSC\configure-azuresecuritycenter.ps1 -EmailAddressForAlerts <email id>`
-
-7.  To create standard DDoS plan and configure with virtual network <br />
-
-    a. Go to Azure Portal --> Click on "Create a resource" --> Search "DDoS Protection  plan"
-
-      ![](images/ddos-standard-plan-1.png)
-    
-    b. Enter details 
-
-      ![](images/ddos-standard-plan-2.png)
-
-    c. Configure standard DDoS protection plan on VNet
-
-      ![](images/select-standard-ddos-on-vnet.png)
 
 <a name="attack"></a>
 
 # Perform Attack 
- ### * Attack VM without DDoS protection & analyze <br />
+ ### * Attack VM with Basic DDoS protection & analyze <br />
 Microsoft have partnered with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) to offer tooling for Azure customers to generate traffic load against DDoS Protection enabled public endpoints to simulate TCP SYN flood and DNS flood attack on the VM without DDoS Protection Standard. Create a  support request with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) for simulation of a DDoS attack on infrastructure. The team executed TCP SYN flood and DNS flood attack on the VM without DDoS Protection Standard  <br />
 
 In this case DDoS attack cannot be detected as shown in below images. <br />
@@ -133,8 +69,22 @@ To monitor from metrics to find public IP inbound packets status (Does not detec
   ![](images/without-ddos-protection-inbound.png)
 
  ### * Attack on VM with DDoS Protection Standard <br />
-
+ 
 Microsoft have partnered with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) to offer tooling for Azure customers to generate traffic load against DDoS Protection enabled public endpoints to simulate TCP SYN flood and DNS flood attack on the VM without DDoS Protection Standard. Create a  support request with [BreakingPoint Cloud](https://www.ixiacom.com/products/breakingpoint-cloud) for simulation of a DDoS attack on infrastructure. The team executed TCP SYN flood and DNS flood attack on the VM with DDoS Protection Standard <br />
+
+*  To create standard DDoS plan and configure with virtual network <br />
+
+    a. Go to Azure Portal --> Click on "Create a resource" --> Search "DDoS Protection  plan"
+
+      ![](images/ddos-standard-plan-1.png)
+    
+    b. Enter details 
+
+      ![](images/ddos-standard-plan-2.png)
+
+    c. Configure standard DDoS protection plan on VNet
+
+      ![](images/select-standard-ddos-on-vnet.png)
 
 
 <a name="detect"></a>
