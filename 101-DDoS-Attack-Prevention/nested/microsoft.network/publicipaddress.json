@@ -38,6 +38,10 @@
         "publicIPAddressName": {
             "type": "string",
             "value": "[parameters('publicIPAddressName')]"
+        },
+        "publicIPResourceId": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]"
         }
     }
 }

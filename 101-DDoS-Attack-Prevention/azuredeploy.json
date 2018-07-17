@@ -105,6 +105,13 @@
       "metadata": {
         "description": "this will be the password of the user created on the user"
       }
+    },
+    "emailToSendAlertsTo": {
+      "type": "string",
+      "defaultValue": "dummy@contoso.com",
+      "metadata": {
+        "description": "attack email alerts will be sent to this email id"
+      }
     }
   },
   "variables": {
@@ -161,7 +168,7 @@
     "pipTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.network/publicipaddress.json'),parameters('_artifactsLocationSasToken'))]",
     "nicTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.network/nic-with-pip.json'),parameters('_artifactsLocationSasToken'))]",
     "vmTemplateUri": "[concat(uri(parameters('_artifactsLocation'),'nested/microsoft.compute/vm.windows.json'),parameters('_artifactsLocationSasToken'))]",
-    "dscScriptUri":"[concat(uri(parameters('_artifactsLocation'),'DSC/DesiredStateConfig.ps1.zip'),parameters('_artifactsLocationSasToken'))]"
+    "dscScriptUri": "[concat(uri(parameters('_artifactsLocation'),'DSC/DesiredStateConfig.ps1.zip'),parameters('_artifactsLocationSasToken'))]"
   },
   "resources": [
     {
@@ -389,8 +396,40 @@
             "MachineName": "[variables('vmName')]"
           }
         },
-
         "protectedSettings": {}
+      }
+    },
+    {
+      "type": "microsoft.insights/alertrules",
+      "name": "DDoS-attack-metric-alert-rule",
+      "apiVersion": "2016-03-01",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat(variables('vmName'),'-pip','-resource')]"
+      ],
+      "properties": {
+        "name": "DDoS attack alert",
+        "description": "Under DDoS attack alert",
+        "isEnabled": true,
+        "condition": {
+          "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+          "dataSource": {
+            "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+            "resourceUri": "[reference(concat(variables('vmName'),'-pip','-resource').outputs.publicIPResourceId.value)]",
+            "metricNamespace": null,
+            "metricName": "IfUnderDDoSAttack"
+          },
+          "operator": "GreaterThanOrEqual",
+          "threshold": 1,
+          "windowSize": "PT5M"
+        },
+        "action": {
+          "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+          "sendToServiceOwners": true,
+          "customEmails": [
+            "[parameters('emailToSendAlertsTo')]"
+          ]
+        }
       }
     }
   ],
