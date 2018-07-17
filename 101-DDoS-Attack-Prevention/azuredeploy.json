@@ -415,7 +415,7 @@
           "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
           "dataSource": {
             "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
-            "resourceUri": "[reference(concat(variables('vmName'),'-pip','-resource').outputs.publicIPResourceId.value)]",
+            "resourceUri": "[reference(concat(variables('vmName'),'-pip','-resource')).outputs.publicIPResourceId.value]",
             "metricNamespace": null,
             "metricName": "IfUnderDDoSAttack"
           },
